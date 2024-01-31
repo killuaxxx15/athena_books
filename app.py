@@ -13,6 +13,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 # Read data from Google Sheets
 ETFs = conn.read(
+  spreadsheet=url,
   worksheet="sheet1",
   ttl="5"
 )
