@@ -23,14 +23,8 @@ df = df.dropna(how='all')
 # Drop columns where all elements are missing
 df = df.dropna(axis=1, how='all')
 
-# st.dataframe(df, hide_index=True)
 
 
-
-
-# Function to create clickable links
-def make_clickable(link, text="Link"):
-    return f'<a target="_blank" href="{link}">{text}</a>'
 
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
@@ -63,10 +57,6 @@ elif selected_title != 'All':
 else:
     df_selection = df
 
-# Check if 'Link' column exists before modifying it
-if 'Link' in df_selection.columns:
-    df_selection['Link'] = df_selection['Link'].apply(lambda x: make_clickable(x))
-    # Display the DataFrame with HTML rendering for links
-    st.markdown(df_selection.to_html(escape=False, index=False), unsafe_allow_html=True)
-else:
-    st.error("Link column not found in the DataFrame.")
+# Display the DataFrame
+st.dataframe(df_selection, hide_index=True)
+
