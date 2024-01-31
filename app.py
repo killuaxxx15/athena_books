@@ -5,6 +5,8 @@ from streamlit_gsheets import GSheetsConnection
 st.set_page_config(page_title='Athena Books',
                    page_icon=':books:')
 
+st.title('Project Athena Books')
+
 # URL of the public spreadsheet
 url = "https://docs.google.com/spreadsheets/d/17D4Xkbt9jpDO24AfpsHQrhw1gyrv_6Wcd6oiLFdW9GY/edit?usp=sharing"
 
