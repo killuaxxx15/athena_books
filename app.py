@@ -9,13 +9,12 @@ st.set_page_config(page_title='Athena Books',
 url = "https://docs.google.com/spreadsheets/d/17D4Xkbt9jpDO24AfpsHQrhw1gyrv_6Wcd6oiLFdW9GY/edit?usp=sharing"
 
 # Create a connection object
-conn = st.connection("gsheets", type=GSheetsConnection)
+conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
 # Read data from Google Sheets
 df = conn.read(
   spreadsheet=url,
-  worksheet="sheet1",
-  ttl="5"
+  usecols=[0, 1]
 )
 
 # Drop rows where all elements are missing
