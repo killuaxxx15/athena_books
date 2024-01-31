@@ -28,10 +28,6 @@ df = df.dropna(axis=1, how='all')
 
 
 
-
-
-
-
 # Function to create clickable links
 def make_clickable(link, text="Link"):
     return f'<a target="_blank" href="{link}">{text}</a>'
@@ -67,10 +63,10 @@ elif selected_title != 'All':
 else:
     df_selection = df
 
-# Modify 'Link' column to display clickable link text
-df_selection['Link'] = df_selection['Link'].apply(lambda x: make_clickable(x))
-
-# Display the DataFrame with HTML rendering for links
-st.markdown(df_selection.to_html(escape=False, index=False), unsafe_allow_html=True)
-
-
+# Check if 'Link' column exists before modifying it
+if 'Link' in df_selection.columns:
+    df_selection['Link'] = df_selection['Link'].apply(lambda x: make_clickable(x))
+    # Display the DataFrame with HTML rendering for links
+    st.markdown(df_selection.to_html(escape=False, index=False), unsafe_allow_html=True)
+else:
+    st.error("Link column not found in the DataFrame.")
