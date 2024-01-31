@@ -27,6 +27,8 @@ df = df.dropna(axis=1, how='all')
 
 
 
+import streamlit as st
+
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
 
@@ -38,11 +40,16 @@ selected_author = st.sidebar.selectbox('Select an Author', author_list)
 title_list = ['All'] + df['Title'].unique().tolist()
 selected_title = st.sidebar.selectbox('Select a Book Title', title_list)
 
-# Adjusting the query based on selection
-query = " & ".join([f"Author == '{selected_author}'" if selected_author != 'All' else "",
-                    f"Title == '{selected_title}'" if selected_title != 'All' else ""]).strip(" & ")
-
-df_selection = df.query(query) if query else df
+# Filtering the DataFrame based on selection
+if selected_author != 'All' and selected_title != 'All':
+    df_selection = df[(df['Author'] == selected_author) & (df['Title'] == selected_title)]
+elif selected_author != 'All':
+    df_selection = df[df['Author'] == selected_author]
+elif selected_title != 'All':
+    df_selection = df[df['Title'] == selected_title]
+else:
+    df_selection = df
 
 # Display the DataFrame
 st.dataframe(df_selection, hide_index=True)
+
