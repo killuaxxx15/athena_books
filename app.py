@@ -12,7 +12,7 @@ url = "https://docs.google.com/spreadsheets/d/17D4Xkbt9jpDO24AfpsHQrhw1gyrv_6Wcd
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # Read data from Google Sheets
-ETFs = conn.read(
+df = conn.read(
   spreadsheet=url,
   worksheet="sheet1",
   ttl="5"
@@ -24,4 +24,4 @@ df = df.dropna(how='all')
 # Drop columns where all elements are missing
 df = df.dropna(axis=1, how='all')
 
-st.dataframe(df)
+st.dataframe(df, hide_index=True)
