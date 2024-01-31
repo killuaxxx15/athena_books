@@ -29,11 +29,11 @@ df = df.dropna(axis=1, how='all')
 st.sidebar.header('Filter Options')
 
 # Dropdown to select an author
-author_list = ['All'] + df['author'].unique().tolist()
+author_list = ['All'] + df['Author'].unique().tolist()
 selected_author = st.sidebar.selectbox('Select an Author', author_list)
 
 # Dropdown to select a book title
-title_list = ['All'] + df['title'].unique().tolist()
+title_list = ['All'] + df['Title'].unique().tolist()
 selected_title = st.sidebar.selectbox('Select a Book Title', title_list)
 
 # Constructing the query string based on user selection
