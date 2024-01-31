@@ -27,6 +27,7 @@ df = df.dropna(axis=1, how='all')
 
 
 
+
 # Function to create clickable links
 def make_clickable(link, text="Link"):
     return f'<a target="_blank" href="{link}">{text}</a>'
@@ -65,6 +66,16 @@ else:
 # Check if 'Link' column exists before modifying it
 if 'Link' in df_selection.columns:
     df_selection['Link'] = df_selection['Link'].apply(lambda x: make_clickable(x))
+    
+    # Apply custom CSS to center text in table
+    st.markdown("""
+    <style>
+    .dataframe th, .dataframe td {
+        text-align: center !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     # Display the DataFrame with HTML rendering for links
     st.markdown(df_selection.to_html(escape=False, index=False), unsafe_allow_html=True)
 else:
