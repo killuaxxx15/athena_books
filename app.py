@@ -27,26 +27,19 @@ df = df.dropna(axis=1, how='all')
 
 
 
-import streamlit as st
 
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
 
-# Dropdown to select an author
-author_list = ['All'] + df['Author'].unique().tolist()
-selected_author = st.sidebar.selectbox('Select an Author', author_list)
-
-# Dropdown to select a book title
-title_list = ['All'] + df['Title'].unique().tolist()
-selected_title = st.sidebar.selectbox('Select a Book Title', title_list)
+# Combine author and title lists
+combined_list = ['All'] + df['Author'].unique().tolist() + df['Title'].unique().tolist()
+selected_option = st.sidebar.selectbox('Select an Author or Book Title', combined_list)
 
 # Filtering the DataFrame based on selection
-if selected_author != 'All' and selected_title != 'All':
-    df_selection = df[(df['Author'] == selected_author) & (df['Title'] == selected_title)]
-elif selected_author != 'All':
-    df_selection = df[df['Author'] == selected_author]
-elif selected_title != 'All':
-    df_selection = df[df['Title'] == selected_title]
+if selected_option in df['Author'].unique():
+    df_selection = df[df['Author'] == selected_option]
+elif selected_option in df['Title'].unique():
+    df_selection = df[df['Title'] == selected_option]
 else:
     df_selection = df
 
