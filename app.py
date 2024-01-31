@@ -23,4 +23,31 @@ df = df.dropna(how='all')
 # Drop columns where all elements are missing
 df = df.dropna(axis=1, how='all')
 
-st.dataframe(df, hide_index=True)
+# st.dataframe(df, hide_index=True)
+
+# Sidebar for filter options
+st.sidebar.header('Filter Options')
+
+# Dropdown to select an author
+author_list = ['All'] + df['author'].unique().tolist()
+selected_author = st.sidebar.selectbox('Select an Author', author_list)
+
+# Dropdown to select a book title
+title_list = ['All'] + df['title'].unique().tolist()
+selected_title = st.sidebar.selectbox('Select a Book Title', title_list)
+
+# Constructing the query string based on user selection
+query_str = []
+
+if selected_author != 'All':
+    query_str.append(f"author == '{selected_author}'")
+if selected_title != 'All':
+    query_str.append(f"title == '{selected_title}'")
+
+query_str = " & ".join(query_str)
+
+# Applying the query if any filter is selected, else display original dataframe
+filtered_df = df.query(query_str) if query_str else df
+
+# Display DataFrame in the main page
+st.dataframe(filtered_df, hide_index=True)
