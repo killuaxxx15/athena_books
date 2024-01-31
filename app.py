@@ -30,6 +30,7 @@ df = df.dropna(axis=1, how='all')
 
 
 
+
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
 
@@ -42,13 +43,13 @@ def reset_author():
     st.session_state.selected_author = 'All'
 
 # Dropdown to select an author
-author_list = ['All'] + df['Author'].unique().tolist()
+author_list = ['All'] + sorted(df['Author'].unique().tolist())
 if 'selected_author' not in st.session_state:
     st.session_state['selected_author'] = 'All'
 selected_author = st.sidebar.selectbox('Select an Author', author_list, on_change=reset_title, key='selected_author')
 
 # Dropdown to select a book title
-title_list = ['All'] + df['Title'].unique().tolist()
+title_list = ['All'] + sorted(df['Title'].unique().tolist())
 if 'selected_title' not in st.session_state:
     st.session_state['selected_title'] = 'All'
 selected_title = st.sidebar.selectbox('Select a Book Title', title_list, on_change=reset_author, key='selected_title')
@@ -63,3 +64,4 @@ else:
 
 # Display the DataFrame
 st.dataframe(df_selection, hide_index=True)
+
