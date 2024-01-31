@@ -25,6 +25,8 @@ df = df.dropna(axis=1, how='all')
 
 # st.dataframe(df, hide_index=True)
 
+
+
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
 
@@ -36,8 +38,11 @@ selected_author = st.sidebar.selectbox('Select an Author', author_list)
 title_list = ['All'] + df['Title'].unique().tolist()
 selected_title = st.sidebar.selectbox('Select a Book Title', title_list)
 
-df_selection = df.query(
-  "Author == @selected_author & Title == @selected_title"
-)
+# Adjusting the query based on selection
+query = " & ".join([f"Author == '{selected_author}'" if selected_author != 'All' else "",
+                    f"Title == '{selected_title}'" if selected_title != 'All' else ""]).strip(" & ")
 
+df_selection = df.query(query) if query else df
+
+# Display the DataFrame
 st.dataframe(df_selection, hide_index=True)
