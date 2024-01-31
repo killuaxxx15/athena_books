@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_gsheets import GSheetsConnection
 
 # Page icons https://webfx.com/tools/emoji-cheat-sheet/
-st.set_page_config(page_title='Global Momentum',
+st.set_page_config(page_title='Athena Books',
                    page_icon=':books:')
 
 # URL of the public spreadsheet
