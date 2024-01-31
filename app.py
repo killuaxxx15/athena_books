@@ -28,42 +28,38 @@ df = df.dropna(axis=1, how='all')
 
 
 
-# Initialize session state variables if they don't exist
-if 'selected_author' not in st.session_state:
-    st.session_state['selected_author'] = 'All'
 
-if 'selected_title' not in st.session_state:
-    st.session_state['selected_title'] = 'All'
 
 # Sidebar for filter options
 st.sidebar.header('Please Filter Here:')
 
+# Function to reset title selection
+def reset_title():
+    st.session_state.selected_title = 'All'
+
+# Function to reset author selection
+def reset_author():
+    st.session_state.selected_author = 'All'
+
 # Dropdown to select an author
 author_list = ['All'] + df['Author'].unique().tolist()
-selected_author = st.sidebar.selectbox('Select an Author', author_list, index=author_list.index(st.session_state['selected_author']))
+if 'selected_author' not in st.session_state:
+    st.session_state['selected_author'] = 'All'
+selected_author = st.sidebar.selectbox('Select an Author', author_list, on_change=reset_title, key='selected_author')
 
 # Dropdown to select a book title
 title_list = ['All'] + df['Title'].unique().tolist()
-selected_title = st.sidebar.selectbox('Select a Book Title', title_list, index=title_list.index(st.session_state['selected_title']))
-
-# Update session state
-if selected_author != st.session_state['selected_author']:
-    st.session_state['selected_author'] = selected_author
-    st.session_state['selected_title'] = 'All'  # Reset title to 'All' if author changes
-
-if selected_title != st.session_state['selected_title']:
-    st.session_state['selected_title'] = selected_title
-    st.session_state['selected_author'] = 'All'  # Reset author to 'All' if title changes
+if 'selected_title' not in st.session_state:
+    st.session_state['selected_title'] = 'All'
+selected_title = st.sidebar.selectbox('Select a Book Title', title_list, on_change=reset_author, key='selected_title')
 
 # Filtering the DataFrame based on selection
-if st.session_state['selected_author'] != 'All':
-    df_selection = df[df['Author'] == st.session_state['selected_author']]
-elif st.session_state['selected_title'] != 'All':
-    df_selection = df[df['Title'] == st.session_state['selected_title']]
+if selected_author != 'All':
+    df_selection = df[df['Author'] == selected_author]
+elif selected_title != 'All':
+    df_selection = df[df['Title'] == selected_title]
 else:
     df_selection = df
 
 # Display the DataFrame
 st.dataframe(df_selection, hide_index=True)
-
-
